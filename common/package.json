@@ -1,0 +1,13 @@
+{
+  "name": "@monorepo/common",
+  "description": "Common code for monorepo. Some shared constants, types, logic, etc.",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@monorepo/core": "^0.0.1"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@monorepo/api",
+  "version": "0.0.1",
+  "description": "invoice-mate api service",
+  "author": "Ihor Bilash",
+  "type": "module",
+  "license": "ISC",
+  "scripts": {
+    "dev": "tsx src/app.ts"
+  },
+  "dependencies": {
+    "@monorepo/common": "^0.0.1",
+    "@monorepo/core": "^0.0.1"
+  }
+}
