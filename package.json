@@ -5,7 +5,9 @@
     "api:dev": "npm run dev --workspace apps/api",
     "web-client:dev": "npm run dev --workspace apps/web-client",
     "script:db:init": "npm run db:init --workspace @monorepo/scripts",
-    "script:functions:deploy": "npm run functions:deploy --workspace @monorepo/scripts"
+    "script:functions:deploy": "npm run functions:deploy --workspace @monorepo/scripts",
+    "script:supabase:sync": "npm run supabase:sync --workspace @monorepo/scripts",
+    "test": "vitest run"
   },
   "author": "Ihor Bilash",
   "license": "ISC",

@@ -2,14 +2,15 @@ import type { Fastify } from "@monorepo/core/src/api-server.js";
 import { JSONSchemaType } from "@monorepo/core/src/validation.js";
 import {
   InvoiceStatusEnum,
-  type CreateInvoiceData,
+  type CreateInvoice,
   type Invoice,
 } from "@monorepo/common/src/utils/types.js";
-import { supabaseClient } from "@monorepo/core/src/db/supabase-client.js";
+
+import { createInvoiceUseCase } from "@monorepo/common/src/usecases/create-invoice.usecase.js";
 
 type CreateInvoiceResponse = Omit<Invoice, "id">;
 
-const createInvoiceDataSchema: JSONSchemaType<CreateInvoiceData> = {
+const createInvoiceDataSchema: JSONSchemaType<CreateInvoice> = {
   type: "object",
   properties: {
     invoice_number: { type: "string" },
@@ -59,7 +60,7 @@ export default async function (
   app: Fastify.FastifyInstance,
   _: Fastify.FastifyPluginOptions
 ) {
-  app.post<{ Body: CreateInvoiceData; Reply: { 200: Invoice } }>(
+  app.post<{ Body: CreateInvoice; Reply: { 200: Invoice } }>(
     "/create",
     {
       schema: {
@@ -79,26 +80,15 @@ export default async function (
         due_date,
         description,
       } = req.body;
-      //   const document = await getTranslationContent(id, isShielding);
-      const { data, error } = await supabaseClient
-        .from("invoices")
-        .insert([
-          {
-            client_email,
-            client_name,
-            invoice_number,
-            amount,
-            status,
-            due_date,
-            description,
-          },
-        ])
-        .select()
-        .single();
-
-      if (!data) {
-        throw new Error("Failed to fetch invoices");
-      }
+      const data = await createInvoiceUseCase.execute({
+        client_email,
+        client_name,
+        invoice_number,
+        amount,
+        status,
+        due_date,
+        description,
+      });
 
       return res.status(200).send(data);
     }

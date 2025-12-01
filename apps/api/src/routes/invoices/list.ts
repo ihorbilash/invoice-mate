@@ -2,7 +2,7 @@ import type { Fastify } from "@monorepo/core/src/api-server.js";
 import { JSONSchemaType } from "@monorepo/core/src/validation.js";
 import type { Invoice } from "@monorepo/common/src/utils/types.js";
 import { InvoiceStatusEnum } from "@monorepo/common/src/utils/types.js";
-import { supabaseClient } from "@monorepo/core/src/db/supabase-client.js";
+import { getInvoicesListUseCase } from "@monorepo/common/src/usecases/get-invoices-list.usecase.js";
 
 export const invoicesResponseSchema: JSONSchemaType<Invoice[]> = {
   type: "array",
@@ -46,19 +46,13 @@ export default async function (
     "/list",
     {
       schema: {
-        // params: paramsSchema,
         response: {
           200: invoicesResponseSchema,
         },
       },
     },
     async (_, res) => {
-      //   const document = await getTranslationContent(id, isShielding);
-      const { data } = await supabaseClient.from("invoices").select("*");
-
-      if (!data) {
-        throw new Error("Failed to fetch invoices");
-      }
+      const data = await getInvoicesListUseCase.execute();
 
       return res.status(200).send(data);
     }

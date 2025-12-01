@@ -11,7 +11,7 @@ export type Invoice = {
   updated_at: string;
 };
 
-export interface CreateInvoiceData {
+export type CreateInvoice = {
   invoice_number: string;
   client_name: string;
   client_email?: string;
@@ -19,7 +19,7 @@ export interface CreateInvoiceData {
   status?: InvoiceStatus;
   due_date: string;
   description?: string;
-}
+};
 
 export type HealthStatus = {
   status: string;
