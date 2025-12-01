@@ -5,11 +5,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "db:login": "node run-with-env.js supabase login --token __SUPABASE_TOKEN__",
-    "db:link": "node run-with-env.js supabase link --project-ref __SUPABASE_PROJECT_ID__",
-    "db:push": "supabase db push --yes",
-    "db:init": "npm run db:login && npm run db:link && npm run db:push",
-    "functions:deploy": "npm run db:login && node run-with-env.js supabase functions deploy health --project-ref __SUPABASE_PROJECT_ID__",
+    "db:init": "tsx ./supabase/db-script.ts",
+    "functions:deploy": "tsx ./supabase/function-script.ts",
     "supabase:sync": "npm run db:init && npm run functions:deploy"
   },
   "dependencies": {
